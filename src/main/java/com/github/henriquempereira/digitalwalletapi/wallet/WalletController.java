@@ -17,4 +17,10 @@ public class WalletController {
     public WalletResponse createWallet(@Valid @RequestBody CreateWalletRequest request){
         return service.createWallet(request);
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public WalletResponse getWallet(@PathVariable Long id){
+        return service.getWallet(id);
+    }
 }

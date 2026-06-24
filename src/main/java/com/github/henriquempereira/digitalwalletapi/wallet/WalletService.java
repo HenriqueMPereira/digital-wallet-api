@@ -1,9 +1,12 @@
 package com.github.henriquempereira.digitalwalletapi.wallet;
 
 import com.github.henriquempereira.digitalwalletapi.exception.CpfAlreadyExistsException;
+import com.github.henriquempereira.digitalwalletapi.exception.WalletNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +22,11 @@ public class WalletService {
         Wallet wallet = new Wallet(request.name(), request.cpf());
         repository.save(wallet);
         return new WalletResponse(wallet.getId(), wallet.getName(), wallet.getBalance());
+    }
+
+    public WalletResponse getWallet(Long id) {
+        return repository.findById(id).
+                map(wallet -> new WalletResponse(wallet.getId(), wallet.getName(), wallet.getBalance()))
+                .orElseThrow(() -> new WalletNotFoundException(String.format("Wallet %d not found", id)));
     }
 }
