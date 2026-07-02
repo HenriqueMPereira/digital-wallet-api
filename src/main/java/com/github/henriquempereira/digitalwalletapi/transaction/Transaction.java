@@ -45,6 +45,13 @@ public class Transaction {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * Creates a new transaction record.
+     * @param type the type of transaction
+     * @param sourceWallet the wallet debited by this transaction, or {@code null} for a deposit
+     * @param destinationWallet the wallet credited by this transaction
+     * @param amount the transaction amount
+     */
     public Transaction(TransactionType type, Wallet sourceWallet, Wallet destinationWallet, BigDecimal amount) {
         this.type = type;
         this.sourceWallet = sourceWallet;

@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Handles wallet-to-wallet balance transfers.
+ */
 @Service
 @RequiredArgsConstructor
 public class TransferService {
@@ -15,6 +18,13 @@ public class TransferService {
     private final TransactionRepository transactionRepository;
     private final WalletRepository walletRepository;
 
+    /**
+     * Debits the source wallet, credits the destination wallet, and records the transfer transaction.
+     * @param request the source wallet, destination wallet, and amount to transfer
+     * @return the resulting transfer transaction
+     * @throws SameWalletTransferException if the source and destination wallets are the same
+     * @throws WalletNotFoundException if either wallet does not exist
+     */
     @Transactional
     public TransferResponse transfer(TransferRequest request) {
         if(request.sourceWalletId().equals(request.destinationWalletId())) {
