@@ -5,7 +5,7 @@ import com.github.henriquempereira.digitalwalletapi.exception.WalletNotFoundExce
 import com.github.henriquempereira.digitalwalletapi.transaction.Transaction;
 import com.github.henriquempereira.digitalwalletapi.transaction.TransactionRepository;
 import com.github.henriquempereira.digitalwalletapi.transaction.TransactionType;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
