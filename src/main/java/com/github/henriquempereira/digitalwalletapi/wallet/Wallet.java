@@ -36,6 +36,11 @@ public class Wallet {
 
     private LocalDateTime createdAt;
 
+    /**
+     * Creates a new wallet with zero balance.
+     * @param name the wallet owner's name
+     * @param cpf the wallet owner's CPF
+     */
     public Wallet(String name, String cpf) {
         this.name = name;
         this.cpf = cpf;
