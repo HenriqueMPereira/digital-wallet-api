@@ -1,5 +1,6 @@
 package com.github.henriquempereira.digitalwalletapi.wallet;
 
+import com.github.henriquempereira.digitalwalletapi.exception.InsufficientBalanceException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -52,7 +53,7 @@ public class Wallet {
     /**
      * Credits the specified amount into the wallet.
      * @param amount the amount to credit
-     * @throws IllegalArgumentException if the amount is less than or equal to zero
+     * @throws InvalidAmountException if the amount is less than or equal to zero
      */
     public void credit(BigDecimal amount) {
         validateAmount(amount);
@@ -62,13 +63,13 @@ public class Wallet {
     /**
      * Debits the specified amount from the wallet.
      * @param amount the amount to debit
-     * @throws IllegalArgumentException if the amount is less than or equal to zero
-     * @throws IllegalStateException if the balance is insufficient for the debit operation
+     * @throws InvalidAmountException if the amount is less than or equal to zero
+     * @throws InsufficientBalanceException if the balance is insufficient for the debit operation
      */
     public void debit(BigDecimal amount) {
         validateAmount(amount);
         if (this.balance.compareTo(amount) < 0) {
-            throw new IllegalStateException("Insufficient balance for debit operation.");
+            throw new InsufficientBalanceException("Insufficient balance for debit operation.");
         }
         this.balance = this.balance.subtract(amount);
     }
@@ -76,11 +77,11 @@ public class Wallet {
     /**
      * Validates that the specified amount is greater than zero.
      * @param amount the amount to validate
-     * @throws IllegalArgumentException if the amount is less than or equal to zero or null
+     * @throws InvalidAmountException if the amount is less than or equal to zero or null
      */
     private void validateAmount(BigDecimal amount) {
         if(amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Amount must be greater than zero.");
+            throw new InvalidAmountException("Amount must be greater than zero.");
         }
     }
 }
